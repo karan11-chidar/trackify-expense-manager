@@ -1,0 +1,488 @@
+/* ===== Google Fonts ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Theme Colors (Dashboard Match) */
+    --primary-color: #ff5722;
+    --primary-gradient: linear-gradient(135deg, #ff5722, #ff9800);
+    --sidebar-bg: #1e1e2d;
+    --card-bg: #ffffff;
+    --bg-color: #f0f2f5;
+    --text-dark: #333;
+    --text-gray: #777;
+    --border-color: #eee;
+    
+    /* Expense Specific Colors */
+    --danger: #e74c3c;
+    --danger-light: #fdedec;
+    --warning: #f39c12;
+    --warning-light: #fef5e7;
+    --info: #3498db;
+    --info-light: #ebf5fb;
+
+    /* Mapped Variables */
+    --primary: var(--primary-color);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { 
+    background: var(--bg-color); 
+    color: var(--text-dark); 
+    overflow-x: hidden; 
+}
+#header-contant{
+    background: var(--primary-gradient);
+    width: 100%;
+    height:60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.3rem;
+}
+.expense-icon{
+    background: rgba(255, 255, 255, 0.2);
+    padding: 7px;
+border-radius: 10px;
+display: flex;
+align-items: center;
+}
+#icon-note{
+    color: var(--card-bg);
+}
+#heading{
+    font-size: 1.5rem;
+    color: var(--text-dark);
+}
+.content{
+    margin-top:0.8rem;
+    margin-left: 1.5rem;
+}
+#page-heading{
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+.summary-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+    gap: 20px; 
+    margin-bottom: 25px; 
+}
+
+.summary-card { 
+    background: var(--card-bg); 
+    border-radius: 12px; 
+    padding: 20px; 
+    display: flex; flex-direction: column; justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+    border-top: 4px solid transparent; 
+    transition: transform 0.2s ease;
+    position: relative; overflow: hidden; min-height: 110px;
+}
+
+.summary-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+.summary-card.total { border-top-color: var(--danger); }
+.summary-card.total .card-icon { background: var(--danger-light); color: var(--danger); }
+
+.summary-card.monthly { border-top-color: var(--warning); }
+.summary-card.monthly .card-icon { background: var(--warning-light); color: var(--warning); }
+.summary-card.today { border-top-color:rgb(48, 234, 219); }
+.summary-card.today .card-icon { background: var(--info-light); color: rgb(48, 234, 219); }
+.summary-card.weekly{ border-top-color: var(--info);}
+.summary-card.weekly{ background: var(--card-bg); color: var(--info);}
+.summary-card span { 
+    font-size: 11px; color: var(--text-gray); font-weight: 600; 
+    text-transform: uppercase; margin-bottom: 5px; display: block; 
+}
+.summary-card h2 { font-size: 1.6rem; font-weight: 700; color: var(--text-dark); margin: 0; line-height: 1.2; }
+
+.card-icon { 
+    position: absolute; top: 15px; right: 15px;
+    width: 40px; height: 40px; border-radius: 8px; 
+    display: flex; align-items: center; justify-content: center; opacity: 0.9;
+}
+.card-icon i { width: 20px; height: 20px; font-size: 18px; }
+.filter-bar { 
+    display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; 
+    background: var(--card-bg); padding: 15px; border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+}
+
+.search-box { 
+    flex: 2; background: #f9f9f9; padding: 10px 15px; 
+    border-radius: 8px; display: flex; align-items: center; gap: 10px; 
+    border: 1px solid var(--border-color); min-width: 200px; 
+}
+.search-box input { border: none; outline: none; width: 100%; font-size: 14px; background: transparent; }
+
+.filter-select { 
+    padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); 
+    background: #f9f9f9; outline: none; cursor: pointer; flex: 1; min-width: 140px; font-size: 14px;
+}
+
+.btn-add { 
+    background: var(--danger); 
+    color: white; border: none; padding: 10px 20px; 
+    border-radius: 8px; cursor: pointer; display: flex; 
+    align-items: center; gap: 8px; font-weight: 600; font-size: 14px; 
+    margin-left: auto; transition: 0.2s; white-space: nowrap;
+}
+.btn-add:hover { background: #c0392b; transform: translateY(-2px); }
+.card-container{
+ background: var(--card-bg); border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+}
+.expense{
+    display: block;
+}
+.active-expnese{
+    display: none;
+}
+/* =========================================
+   7. MODAL
+   ========================================= */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.modal-content { background: white; width: 100%; max-width: 400px; border-radius: 16px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); transform: translateY(-20px); transition: transform 0.3s ease; }
+.modal-overlay.active .modal-content { transform: translateY(0); }
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.modal-header h3 { margin: 0; font-size: 1.3rem; color: var(--text-dark); }
+.close-modal { background: none; border: none; font-size: 24px; cursor: pointer; color: #999; }
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 13px; color: var(--text-gray); font-weight: 600; }
+.form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; outline: none; background: #fff; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.save-btn { width: 100%; padding: 12px; background: var(--danger); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; margin-top: 10px; }
+/* =========================
+   Expense Grid
+========================= */
+
+.expense-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* =========================
+   Expense Card
+========================= */
+
+.expense-card{
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px;
+    border: 1px solid #f1f1f1;
+    transition: 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+}
+
+.expense-card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
+}
+
+/* Top */
+
+.expense-top{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.expense-category{
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.expense-category i{
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+/* Category Colors */
+
+.food{
+    background: linear-gradient(135deg,#ff5722,#ff9800);
+}
+
+.fuel{
+    background: linear-gradient(135deg,#2196f3,#00bcd4);
+}
+
+.salary{
+    background: linear-gradient(135deg,#4caf50,#8bc34a);
+}
+
+/* Price */
+
+.expense-price{
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Body */
+
+.expense-body h3{
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.expense-body p{
+    font-size: 13px;
+    color: var(--text-gray);
+}
+
+/* Footer */
+
+.expense-footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid #f1f1f1;
+}
+
+.expense-footer span{
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* Payment Badge */
+
+.payment{
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.payment.online{
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.payment.cash{
+    background: #fff3e0;
+    color: #ef6c00;
+}
+/* =========================================
+   Responsive Design
+========================================= */
+
+/* Tablet */
+
+@media (max-width: 992px){
+
+    .content{
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .expense-grid{
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .filter-bar{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-add{
+        width: 100%;
+        justify-content: center;
+        margin-left: 0;
+    }
+
+    .search-box{
+        width: 100%;
+    }
+
+    .filter-select{
+        width: 100%;
+    }
+}
+
+/* Mobile */
+
+@media (max-width: 768px){
+
+    #header-contant{
+        height: auto;
+        padding: 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #heading{
+        font-size: 1.2rem;
+    }
+
+    #page-heading{
+        font-size: 1.2rem;
+    }
+
+    .summary-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .expense-grid{
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+
+    .expense-card{
+        padding: 15px;
+    }
+
+    .expense-price{
+        font-size: 1.3rem;
+    }
+
+    .expense-footer{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .form-row{
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content{
+        padding: 18px;
+    }
+}/* =========================
+   Expense Actions
+========================= */
+
+.expense-actions{
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+/* Common Button */
+
+.action-btn{
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    transition: 0.3s ease;
+}
+
+/* Icons */
+
+.action-btn i{
+    width: 16px;
+    height: 16px;
+}
+
+/* Edit */
+
+.edit-btn{
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.edit-btn:hover{
+    background: #1976d2;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Delete */
+
+.delete-btn{
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.delete-btn:hover{
+    background: #d32f2f;
+    color: white;
+    transform: translateY(-2px);
+}@media (max-width:480px){
+
+    .expense-actions{
+        flex-direction: column;
+    }
+
+    .action-btn{
+        width: 100%;
+    }
+
+}
+
+/* Small Mobile */
+
+@media (max-width: 480px){
+
+    .content{
+        margin-left: 0.6rem;
+        margin-right: 0.6rem;
+    }
+
+    .summary-card{
+        padding: 15px;
+    }
+
+    .summary-card h2{
+        font-size: 1.2rem;
+    }
+
+    .expense-top{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .expense-price{
+        font-size: 1.1rem;
+    }
+
+    .expense-body h3{
+        font-size: 0.95rem;
+    }
+
+    .expense-body p{
+        font-size: 12px;
+    }
+
+    .payment{
+        font-size: 11px !important;
+    }
+
+    .btn-add{
+        padding: 12px;
+        font-size: 13px;
+    }
+}
+@media (max-width: 365px) {
+    .topbar h2 { display: none; } 
+    /* Even for super small screens, we keep 2 columns as requested */
+    .summary-grid { grid-template-columns: repeat(2, 1fr) !important; 
+    }
+}

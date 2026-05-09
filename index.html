@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="container">
+        <header id="header-contant">
+            <div class="expense-icon">
+            <i data-lucide="banknote" id="icon-note"></i> 
+            </div>
+            <h3 id="heading">Expense Tracker</h3>
+        </header>
+        <main class="content">
+            <h3 id="page-heading">Expense Management</h3>
+           <div class="summary-grid">
+                <div class="summary-card total">
+                        <div class="card-info">
+                            <span>Total (All Time)</span>
+                            <h2 id="total-expense">₹0</h2>
+                        </div>
+                        <div class="card-icon"><i data-lucide="layers"></i></div>
+                </div>
+                    <div class="summary-card monthly">
+                        <div class="card-info">
+                            <span>This Month</span>
+                            <h2 id="month-expense">₹0</h2>
+                        </div>
+                        <div class="card-icon"><i data-lucide="calendar-days"></i></div>
+                    </div>
+                    <div class="summary-card weekly">
+                        <div class="card-info">
+                            <span>Last 7 Days</span>
+                            <h2 id="weekly-expense">₹0</h2>
+                        </div>
+                        <div class="card-icon"><i data-lucide="calendar-clock"></i></div>
+                    </div>
+                    <div class="summary-card today">
+                        <div class="card-info">
+                            <span>Today's Expense</span>
+                            <h2 id="today-expense">₹0</h2>
+                        </div>
+                        <div class="card-icon"><i data-lucide="clock"></i></div>
+                    </div>
+            </div>
+             <div class="filter-bar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" id="expense-search" placeholder="Search expenses...">
+                </div>
+                <button class="btn-icon" id="btn-refresh-data" title="Force Refresh List" 
+            style="margin-right:10px; padding:10px; background:white; border:1px solid #ddd; border-radius:8px; cursor:pointer;">
+        <i data-lucide="refresh-cw"></i>
+        </button>
+                
+                <input type="date" id="exp-date-filter" 
+                       style="padding: 10px; border: 1px solid #ddd; border-radius: 8px; outline: none; margin-right: 10px; cursor: pointer;">
+
+                <select class="filter-select" id="filter-category">
+                    <option value="all">All Categories</option>
+                    <option value="Raw Material">Raw Material</option>
+                    <option value="Fuel">Fuel / Transport</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Maintenance">Maintenance</option>
+                    <option value="Other">Other</option>
+                </select>
+                <button class="btn btn-add" id="btn-add-expense">
+                    <i data-lucide="plus"></i> Add New Expense
+                </button>
+            </div>
+            <div class="card-container">
+                <div style="text-align:center; padding:40px; color:#999;" id="expense" >
+                    <i data-lucide="receipt-text" style="width:40px; height:70px; margin-bottom:10px; opacity:0.5;"></i>
+                    <br>No expenses found
+                </div>
+         <div class="expense-grid" id="expense-list">
+
+       <!-- js content dom elements -->
+
+             </div>
+        </div>
+
+        </main>
+    </div>
+    <div id="expense-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Expense</h3>
+                <button class="close-modal" id="close-expense-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="expense-form">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="exp-category" required>
+                            <option value="Raw Material">Raw Material (Doodh/Sugar)</option>
+                            <option value="Fuel">Fuel / Transport</option>
+                            <option value="Salary">Salary / Wages</option>
+                            <option value="Maintenance">Repair & Maintenance</option>
+                            <option value="Other">Other / Misc</option>
+                        </select>
+             <span id="cat-error" style="color: red;"></span> 
+                        <input type="text" id="new-cat-input" placeholder="Type new category..." style="display: none; margin-top: 10px;" class="form-group">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount (₹)</label>
+                        <input type="number" min="0" id="exp-amount" placeholder="Enter Amount"  required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description / Note</label>
+                        <input type="text" id="exp-note" placeholder="E.g. Petrol for Bike MP-09..." required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="exp-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Payment Mode</label>
+                            <select id="exp-mode" required>
+                                <option value="Cash">Cash</option>
+                                <option value="Online">Online</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="save-btn" style="background: var(--danger);">Save Expense</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
